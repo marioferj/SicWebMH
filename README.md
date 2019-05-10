@@ -6,10 +6,10 @@ Permite consultar la cédula del emisor en el ministerio de hacienda.
 
 $consulta = new SicWebMH();
 
-//$tipo  debe ser uno de Fisico,Juridico,DIMEX
+//$tipo  debe ser uno de Fisico,Juridico,DIMEX;
 $tipo = "Fisico";
 
-//Cédula de 9 o mas
+//Cédula de 9 o mas;
 $cedula = "999999999";
 
 $resulta = $consulta->BuscaCedula($cedula,$tipo);
