@@ -16,7 +16,7 @@ $cedula = "999999999";
 
 $resulta = $consulta->BuscaCedula($cedula,$tipo);
 
-echo $resulta["CEDULA"] . '<br>';
+echo $resulta["CEDULA"];
 
 echo $resulta['NOMBRECOMPLETO'];
 
