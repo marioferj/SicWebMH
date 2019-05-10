@@ -1,7 +1,8 @@
 <?php
 /**
- * Funciones
+ * SicWebMH
  * Creado por Mario Fernandez J
+ * Colaboración Giovanni Arias H
  * Fecha de Creacion 08/05/2019 12:55:27 PM
  *
  */
