@@ -1,8 +1,9 @@
 <?php
 /**
  * SicWebMH
- * Creado por Mario Fernandez J
+ * Creado por Mario Fernández J
  * Colaboración Giovanni Arias H
+ * Basada en el Sistema Sic Web en C# de Allen Chaves Medina
  * Fecha de Creacion 08/05/2019 12:55:27 PM
  *
  */
@@ -36,17 +37,30 @@
             
             $return = $client->__soapCall('ObtenerDatos',$parametros);
             $this->_xml = new SimpleXMLElement($client->__getLastResponse());
-            $result = array(
-                'CEDULA'    =>$this->CargarNodo('CEDULA'),
-                'APELLIDO1' =>$this->CargarNodo('APELLIDO1'),
-                'APELLIDO2' =>$this->CargarNodo('APELLIDO2'),
-                'NOMBRE1'   =>$this->CargarNodo('NOMBRE1'),
-                'NOMBRE2'   =>$this->CargarNodo('NOMBRE2'),
-                'ADM'       =>$this->CargarNodo('ADM'),
-                'ORI'       =>$this->CargarNodo('ORI')
-            );
-            $result['NOMBRECOMPLETO'] = $result['APELLIDO1']. ' ' . $result['APELLIDO2'] . ' ' . $result['NOMBRE1'] . ' ' . $result['NOMBRE2'] ;
-            return $result;
+            switch($tipo)
+            {
+                case 'Fisico';
+                case 'DIMEX':
+                    $Resultado = array(
+                        'CEDULA'    =>$this->CargarNodo('CEDULA'),
+                        'APELLIDO1' =>$this->CargarNodo('APELLIDO1'),
+                        'APELLIDO2' =>$this->CargarNodo('APELLIDO2'),
+                        'NOMBRE1'   =>$this->CargarNodo('NOMBRE1'),
+                        'NOMBRE2'   =>$this->CargarNodo('NOMBRE2'),
+                        'ADM'       =>$this->CargarNodo('ADM'),
+                        'ORI'       =>$this->CargarNodo('ORI')
+                    );
+                    $Resultado['NOMBRECOMPLETO'] = (($Resultado['NOMBRE1']!='') ? $Resultado['NOMBRE1'].' ':'').(($Resultado['NOMBRE2']!='') ? $Resultado['NOMBRE2'].' ':'').(($Resultado['APELLIDO1']!='') ? $Resultado['APELLIDO1'].' ':'').(($Resultado['APELLIDO2']!='') ? $Resultado['APELLIDO2']:'');
+                    break;
+                case 'Juridico':
+                    $Resultado = array(
+                        'CEDULA'    =>$this->CargarNodo('CEDULA'),
+                        'ADM'       =>$this->CargarNodo('ADM'),
+                        'NOMBRECOMPLETO'  =>$this->CargarNodo('NOMBRE')
+                    );
+            }
+            
+            return $Resultado;
         }
         catch(Exception $e)
         {
@@ -60,7 +74,7 @@
         $Nodo = $this->_xml->xpath("//".$Clave);
         if ($Nodo == true)
         {
-            $tmp = $Nodo[0];
+            $tmp = trim($Nodo[0]);
         }
         return $tmp;
     }
